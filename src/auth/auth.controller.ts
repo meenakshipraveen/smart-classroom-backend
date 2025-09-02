@@ -8,6 +8,17 @@ import { LoginDto } from './dto/login.dto';
 export class AuthController {
   constructor(private authService: AuthService) {}
 
+  @Post('register')
+  async register(
+  @Body('username') username: string,
+  @Body('password') password: string,
+  @Body('email') email?: string,
+  @Body('fullName') fullName?: string,
+  ) {
+    const admin = await this.authService.createAdmin(username, password, email, fullName);
+    return { message: 'Admin created', admin };
+  }
+
   @Post('login')
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Admin login' })
