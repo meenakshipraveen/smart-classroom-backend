@@ -2,6 +2,7 @@ import { Controller, Post, Body, HttpCode, HttpStatus } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
+import { RegisterAdminDto } from './dto/registeradmin.dto';
 
 @ApiTags('Authentication')
 @Controller('auth')
@@ -9,13 +10,15 @@ export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Post('register')
-  async register(
-  @Body('username') username: string,
-  @Body('password') password: string,
-  @Body('email') email?: string,
-  @Body('fullName') fullName?: string,
-  ) {
-    const admin = await this.authService.createAdmin(username, password, email, fullName);
+  @ApiOperation({ summary: 'Register a new admin' })
+  @ApiResponse({ status: 201, description: 'Admin registered successfully' })
+  async register(@Body() registerAdminDto: RegisterAdminDto) {
+    const admin = await this.authService.createAdmin(
+      registerAdminDto.username,
+      registerAdminDto.password,
+      registerAdminDto.email,
+      registerAdminDto.fullName,
+    );
     return { message: 'Admin created', admin };
   }
 
