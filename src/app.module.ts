@@ -10,7 +10,6 @@ import { AttendanceModule } from './attendance/attendance.module';
 import { ExamsModule } from './exams/exams.module';
 import { SensorsModule } from './sensors/sensors.module';
 import { ClassroomModule } from './classroom/classroom.module';
-
 @Module({
   imports: [
     ConfigModule.forRoot({

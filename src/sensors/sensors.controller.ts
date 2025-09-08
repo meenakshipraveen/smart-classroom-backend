@@ -12,11 +12,20 @@ import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagg
 import { SensorsService } from './sensors.service';
 import { TemperatureReadingDto, CoolingControlDto } from './dto/temperature-reading.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { SensorEntryDto } from './dto/sensor-entry.dto';
+import { SensorEntry } from '../database/entities/sensor-entry.entity';
 
 @ApiTags('Sensors')
 @Controller('sensors')
 export class SensorsController {
   constructor(private readonly sensorsService: SensorsService) {}
+
+  @Post('entry')
+  @ApiOperation({ summary: 'Record a sensor entry event' })
+  @ApiResponse({ status: 201, type: SensorEntry, description: 'Sensor entry recorded' })
+  async recordEntry(@Body() dto: SensorEntryDto): Promise<SensorEntry> {
+    return await this.sensorsService.recordEntry(dto);
+  }
 
   @Post('temperature')
   @ApiOperation({ summary: 'Record temperature reading (No JWT required - for IoT sensors)' })
