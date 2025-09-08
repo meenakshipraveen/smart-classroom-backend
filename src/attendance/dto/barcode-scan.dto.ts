@@ -6,4 +6,8 @@ export class BarcodeScanDto {
   @IsString()
   @IsNotEmpty()
   barcode: string;
+  @ApiProperty({ description: 'Student barcode from ID card' })
+  @IsString()
+  @IsNotEmpty()
+  time: string;
 }
