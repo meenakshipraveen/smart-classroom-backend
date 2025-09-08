@@ -5,6 +5,8 @@ import { Sensor } from '../database/entities/sensor.entity';
 import { TemperatureLog } from '../database/entities/temperature-log.entity';
 import { Classroom } from '../database/entities/classroom.entity';
 import { TemperatureReadingDto, CoolingControlDto } from './dto/temperature-reading.dto';
+import { SensorEntry } from '../database/entities/sensor-entry.entity';
+import { SensorEntryDto } from './dto/sensor-entry.dto';
 
 @Injectable()
 export class SensorsService {
@@ -17,7 +19,16 @@ export class SensorsService {
     private temperatureLogRepository: Repository<TemperatureLog>,
     @InjectRepository(Classroom)
     private classroomRepository: Repository<Classroom>,
+    @InjectRepository(SensorEntry)
+    private readonly sensorEntryRepository: Repository<SensorEntry>,
   ) {}
+
+  async recordEntry(dto: SensorEntryDto): Promise<SensorEntry> {
+    const entry = this.sensorEntryRepository.create({
+      timestamp: new Date(dto.timestamp),
+    });
+    return await this.sensorEntryRepository.save(entry);
+  }
 
   async recordTemperature(temperatureReadingDto: TemperatureReadingDto): Promise<TemperatureLog> {
     // Check if sensor exists
