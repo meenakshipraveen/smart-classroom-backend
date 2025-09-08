@@ -22,6 +22,7 @@ export class AttendanceController {
   @ApiResponse({ status: 200, description: 'Attendance logged successfully' })
   @ApiResponse({ status: 404, description: 'Student not found' })
   scanBarcode(@Body() barcodeScanDto: BarcodeScanDto) {
+    console.log('Scanning barcode:', barcodeScanDto.barcode);
     return this.attendanceService.scanBarcode(barcodeScanDto);
   }
 

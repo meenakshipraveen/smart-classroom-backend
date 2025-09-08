@@ -31,24 +31,24 @@ export class AttendanceService {
     const tomorrow = new Date(today);
     tomorrow.setDate(tomorrow.getDate() + 1);
 
-    // Check if there's already an attendance record for today
-    const existingAttendance = await this.attendanceRepository.findOne({
-      where: {
-        regNo: student.regNo,
-        date: Between(today, tomorrow),
-      },
-    });
+    // // Check if there's already an attendance record for today
+    // const existingAttendance = await this.attendanceRepository.findOne({
+    //   where: {
+    //     regNo: student.regNo,
+    //     date: Between(today, tomorrow),
+    //   },
+    // });
 
     const now = new Date();
 
-    if (!existingAttendance) {
+    // if (!existingAttendance) {
       // First scan of the day - log arrival
       const attendance = this.attendanceRepository.create({
         regNo: student.regNo,
         classID: student.classID,
         arrival_time: now,
         date: today,
-      });
+       });
 
       await this.attendanceRepository.save(attendance);
 
@@ -62,35 +62,35 @@ export class AttendanceService {
         action: 'arrival',
         time: now,
       };
-    } else if (existingAttendance.arrival_time && !existingAttendance.departure_time) {
-      // Already arrived, log departure
-      existingAttendance.departure_time = now;
-      await this.attendanceRepository.save(existingAttendance);
+    // } else if (existingAttendance.arrival_time && !existingAttendance.departure_time) {
+    //   // Already arrived, log departure
+    //   existingAttendance.departure_time = now;
+    //   await this.attendanceRepository.save(existingAttendance);
 
-      return {
-        message: 'Departure logged successfully',
-        student: {
-          regNo: student.regNo,
-          name: student.name,
-          classID: student.classID,
-        },
-        action: 'departure',
-        time: now,
-      };
-    } else {
+    //   return {
+    //     message: 'Departure logged successfully',
+    //     student: {
+    //       regNo: student.regNo,
+    //       name: student.name,
+    //       classID: student.classID,
+    //     },
+    //     action: 'departure',
+    //     time: now,
+    //   };
+    // } else {
       // Already completed attendance for today
-      return {
-        message: 'Attendance already completed for today',
-        student: {
-          regNo: student.regNo,
-          name: student.name,
-          classID: student.classID,
-        },
-        action: 'completed',
-        arrival_time: existingAttendance.arrival_time,
-        departure_time: existingAttendance.departure_time,
-      };
-    }
+    //   return {
+    //     message: 'Attendance already completed for today',
+    //     student: {
+    //       regNo: student.regNo,
+    //       name: student.name,
+    //       classID: student.classID,
+    //     },
+    //     action: 'completed',
+    //     arrival_time: existingAttendance.arrival_time,
+    //     departure_time: existingAttendance.departure_time,
+    //   };
+    // }
   }
 
   async getTodayAttendance(classID: string) {

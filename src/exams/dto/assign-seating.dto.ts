@@ -9,7 +9,7 @@ export class AssignSeatingDto {
 
   @ApiProperty({ description: 'Seat number' })
   @IsNumber()
-  seatNo: number;
+  seatNo: string;
 }
 
 export class BulkAssignSeatingDto {
