@@ -8,7 +8,8 @@ export class AssignSeatingDto {
   regNo: string;
 
   @ApiProperty({ description: 'Seat number' })
-  @IsNumber()
+  @IsString()
+  @IsNotEmpty()
   seatNo: string;
 }
 

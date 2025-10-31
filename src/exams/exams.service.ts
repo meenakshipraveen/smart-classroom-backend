@@ -102,7 +102,7 @@ export class ExamsService {
     const seating = this.examSeatingRepository.create({
       examID: examId,
       regNo: assignSeatingDto.regNo,
-      seatNo: assignSeatingDto.seatNo.toString(),
+      seatNo: assignSeatingDto.seatNo,
       classID: student.classID,
       timestamp: new Date(),
     });

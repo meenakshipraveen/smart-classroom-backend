@@ -18,7 +18,7 @@ import { Admin } from '../database/entities/admin.entity';
         secret: configService.get<string>('JWT_SECRET') || 'default-secret-key',
         signOptions: {
           expiresIn: configService.get<string>('JWT_EXPIRES_IN') || '24h',
-        },
+        } as { expiresIn: import('ms').StringValue },
       }),
       inject: [ConfigService],
     }),
